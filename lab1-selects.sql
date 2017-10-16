@@ -63,15 +63,16 @@ WHERE
 -- całkowitego spożycia jeśli przekracza 660, ’Limit’ jeśli jest równe 660, ’Ponizej 660’ jeśli jest mniejsze od 660.
 -- Nie używać operatorów zbiorowych (UNION, INTERSECT, MINUS).
 SELECT
-  IMIE,
+  imie,
   CASE
-  WHEN 12 * (NVL(PRZYDZIAL_MYSZY, 0) + NVL(MYSZY_EXTRA, 0)) > 660
-    THEN TO_CHAR(12 * (NVL(PRZYDZIAL_MYSZY, 0) + NVL(MYSZY_EXTRA, 0)))
-  WHEN 12 * (NVL(PRZYDZIAL_MYSZY, 0) + NVL(MYSZY_EXTRA, 0)) = 660
-    THEN 'Limit'
-  ELSE 'Ponizej 660'
-  END "Zjada rocznie"
-FROM KOCURY
+    WHEN 12 * (NVL(przydzial_myszy, 0) + NVL(myszy_extra, 0)) > 660 THEN 
+        TO_CHAR(12 * (NVL(przydzial_myszy, 0) + NVL(myszy_extra, 0)))
+    WHEN 12 * (NVL(przydzial_myszy, 0) + NVL(myszy_extra, 0)) = 660 THEN 
+        'Limit'
+    ELSE 'Ponizej 660'
+  END 
+    "Zjada rocznie"
+FROM Kocury
 
 -- Zad. 9. Po kilkumiesięcznym, spowodowanym kryzysem, zamrożeniu wydawania myszy Tygrys z dniem bieżącym wznowił
 -- wypłaty zgodnie z zasadą, że koty, które przystąpiły do stada w pierwszej połowie miesiąca (łącznie z 15-m)
@@ -83,38 +84,38 @@ FROM KOCURY
 
 -- 23 październik
 SELECT
-  PSEUDO,
-  W_STADKU_OD "W STADKU",
+  pseudo,
+  w_stadku_od "W STADKU",
   CASE
-  WHEN EXTRACT(DAY FROM W_STADKU_OD) <= 15
-    THEN
-      CASE
-      WHEN NEXT_DAY(LAST_DAY('2017-10-23') - 7, 'ŚRODA') < '2017-10-23'
-        THEN NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-23', 1)) - 7, 'ŚRODA')
-      ELSE
-        NEXT_DAY(LAST_DAY('2017-10-23') - 7, 'ŚRODA')
-      END
-  ELSE
-    NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-23', 1)) - 7, 'ŚRODA')
-  END         "WYPLATA"
+    WHEN EXTRACT(DAY FROM w_stadku_od) <= 15 THEN
+        CASE
+          WHEN NEXT_DAY(LAST_DAY('2017-10-23') - 7, 'ŚRODA') < '2017-10-23' THEN 
+              NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-23', 1)) - 7, 'ŚRODA')
+          ELSE
+            NEXT_DAY(LAST_DAY('2017-10-23') - 7, 'ŚRODA')
+        END
+    ELSE
+      NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-23', 1)) - 7, 'ŚRODA')
+  END         
+    "WYPLATA"
 FROM Kocury;
 
 -- 26 październik
 SELECT
-  PSEUDO,
-  W_STADKU_OD "W STADKU",
+  pseudo,
+  w_stadku_od "W STADKU",
   CASE
-  WHEN EXTRACT(DAY FROM W_STADKU_OD) <= 15
-    THEN
-      CASE
-      WHEN NEXT_DAY(LAST_DAY('2017-10-26') - 7, 'ŚRODA') < '2017-10-26'
-        THEN NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-26', 1)) - 7, 'ŚRODA')
-      ELSE
-        NEXT_DAY(LAST_DAY('2017-10-26') - 7, 'ŚRODA')
-      END
-  ELSE
-    NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-26', 1)) - 7, 'ŚRODA')
-  END         "WYPLATA"
+    WHEN EXTRACT(DAY FROM w_stadku_od) <= 15 THEN
+        CASE
+          WHEN NEXT_DAY(LAST_DAY('2017-10-26') - 7, 'ŚRODA') < '2017-10-26' THEN 
+              NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-26', 1)) - 7, 'ŚRODA')
+        ELSE
+          NEXT_DAY(LAST_DAY('2017-10-26') - 7, 'ŚRODA')
+        END
+    ELSE
+      NEXT_DAY(LAST_DAY(ADD_MONTHS('2017-10-26', 1)) - 7, 'ŚRODA')
+  END
+    "WYPLATA"
 FROM Kocury;
 
 -- Zad. 10. Atrybut pseudo w tabeli Kocury jest kluczem głównym tej tabeli. Sprawdzić, czy rzeczywiście wszystkie
